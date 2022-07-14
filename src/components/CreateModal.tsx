@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Field, Input, Modal } from '@grafana/ui';
 import { css, cx } from 'emotion';
+import { createUser, deleteUser, updateUser } from 'api';
 
 type User = {
   id?: number | string;
@@ -22,22 +23,33 @@ export default function CreateModal({ isOpen, onClose, type = 'create', data = n
   useEffect(() => {
     if (data) {
       setUser(data);
+    } else {
+      setUser({
+        id: '',
+        name: '',
+        age: '',
+      });
     }
   }, [data]);
 
   const handleChange = (e: any) => setUser({ ...user, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     if (type === 'create') {
-      console.log('creat: ', user);
+      await createUser(user);
     } else {
-      console.log('update: ', user);
+      await updateUser(user);
     }
+
+    onClose();
   };
 
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    await deleteUser(user?.id);
+    onClose();
+  };
 
   return (
     <Modal

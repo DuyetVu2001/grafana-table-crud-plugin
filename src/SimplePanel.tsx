@@ -74,7 +74,9 @@ export const SimplePanel: React.FC<Props> = ({
           margin-bottom: 10px;
         `)}
       >
-        <Button onClick={() => setModalCreate({ ...modalCreate, isOpen: true, type: 'create' })}>Create</Button>
+        <Button onClick={() => setModalCreate({ ...modalCreate, isOpen: true, type: 'create', data: null })}>
+          Create
+        </Button>
       </div>
 
       <div
